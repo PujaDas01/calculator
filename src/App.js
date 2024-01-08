@@ -39,7 +39,7 @@ const App = () => {
     console.log('value', value, typeof value);
     const operators = value?.replace(/[0-9.]/g, "");
     console.log('operators', operators);
-    let numbers = value.split(/[+\-\/*]/);
+    let numbers = value.split(/[+\-/*]/);
     console.log('numbers', numbers);
 
 
@@ -71,7 +71,7 @@ const App = () => {
           break;
       }
     }
-    if(result.toString().split('.').length == 2) {
+    if(result.toString().split('.').length === 2) {
       result = result.toFixed(2);
     }
     setFinalResult(result.toString());
@@ -83,7 +83,7 @@ const App = () => {
       <div className='calculator-content'>
         <div className='result-container'>
           <input className='value' readOnly value={number.split('').map((n) => {
-            if(operators.includes(n) && n != '.') {
+            if(operators.includes(n) && n !== '.') {
               return " " + n + " ";
             } return n;
           }).join('')} />
