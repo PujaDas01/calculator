@@ -8,6 +8,7 @@ let operators = ['+', '-', '/', '*', '.'];
 const App = () => {
   const [number, setNumber] = useState('');
   const [finalResult, setFinalResult] = useState('');
+  const [hasEntered, setHasEntered] = useState(false);
 
   const handleClick = (e) => {
     let currentValue = e.target.name;
@@ -15,8 +16,13 @@ const App = () => {
     if (isOperatorPresent) {
       let newNumber = number.slice(0, number.length-1);
       newNumber = newNumber + currentValue;
+      console.log('new number', newNumber);
       setNumber(newNumber);
-    } else {
+    } else if(finalResult.length && hasEntered) {
+      setNumber(finalResult + currentValue);
+      setHasEntered(false);
+    }
+    else {
       let newValue = number.concat(currentValue);
       setNumber(newValue);
     }
@@ -33,6 +39,7 @@ const App = () => {
   }
 
   const handleResult = (value) => {
+    setHasEntered(true);
     if(!isNaN(value)) {
       return;
     }
@@ -41,7 +48,6 @@ const App = () => {
     console.log('operators', operators);
     let numbers = value.split(/[+\-/*]/);
     console.log('numbers', numbers);
-
 
     let result = Number(numbers[0]);
     for(let i = 1; i < numbers.length; i++) {
@@ -71,10 +77,15 @@ const App = () => {
           break;
       }
     }
-    if(result.toString().split('.').length === 2) {
+
+    const calculatedResult = result.toString();
+    console.log('calculatedResult',calculatedResult);
+    if(calculatedResult.split('.').length === 2) {
       result = result.toFixed(2);
-    }
-    setFinalResult(result.toString());
+      setFinalResult(calculatedResult);
+    } else {
+        setFinalResult(calculatedResult);
+      }
     console.log('result', result);
   }
 
@@ -188,6 +199,7 @@ const App = () => {
             <Button
               className
               btnText='='
+              name='='
               onClick={() => handleResult(number)}
             />
           </div>
